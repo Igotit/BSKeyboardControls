@@ -14,7 +14,8 @@
 typedef enum
 {
     BSKeyboardControlPreviousNext = 1 << 0,
-    BSKeyboardControlDone = 1 << 1
+    BSKeyboardControlDone = 1 << 1,
+    BSKeyboardControlExtra = 1 << 2,
 } BSKeyboardControl;
 
 /**
@@ -98,6 +99,7 @@ typedef enum
  *  @return Initialized keyboard controls.
  */
 - (id)initWithFields:(NSArray *)fields;
+- (id)initWithFields:(NSArray *)fields extraButtons:(NSArray *)extraButtons;
 
 @end
 

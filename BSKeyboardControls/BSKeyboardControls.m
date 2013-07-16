@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
 @property (nonatomic, strong) UIBarButtonItem *doneButton;
 @property (nonatomic, strong) UIBarButtonItem *segmentedControlItem;
+@property (nonatomic, strong) NSArray *extraButtons;
 @end
 
 @implementation BSKeyboardControls
@@ -31,6 +32,11 @@
 }
 
 - (id)initWithFields:(NSArray *)fields
+{
+    return [self initWithFields:fields extraButtons:nil];
+}
+
+- (id)initWithFields:(NSArray *)fields extraButtons:(NSArray *)extraButtons
 {
     if (self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 44.0f)])
     {
@@ -53,7 +59,13 @@
                                                             target:self
                                                             action:@selector(doneButtonPressed:)]];
         
-        [self setVisibleControls:(BSKeyboardControlPreviousNext | BSKeyboardControlDone)];
+        
+        if (extraButtons != nil && extraButtons.count > 0) {
+            [self setExtraButtons:extraButtons];
+            [self setVisibleControls:(BSKeyboardControlPreviousNext | BSKeyboardControlExtra | BSKeyboardControlDone)];
+        } else {
+            [self setVisibleControls:(BSKeyboardControlPreviousNext | BSKeyboardControlDone)];
+        }
         
         [self setFields:fields];
     }
@@ -268,10 +280,17 @@
 
 - (NSArray *)toolbarItems
 {
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:3];
+    NSMutableArray *items = [NSMutableArray array];
     if (self.visibleControls & BSKeyboardControlPreviousNext)
     {
         [items addObject:self.segmentedControlItem];
+    }
+    
+    if (self.visibleControls & BSKeyboardControlExtra)
+    {
+        for (UIBarButtonItem *item in self.extraButtons) {
+            [items addObject:item];
+        }
     }
     
     if (self.visibleControls & BSKeyboardControlDone)
