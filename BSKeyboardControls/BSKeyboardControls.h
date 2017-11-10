@@ -11,26 +11,26 @@
 /**
  *  Available controls.
  */
-typedef enum
+typedef NS_OPTIONS(NSUInteger, BSKeyboardControl)
 {
     BSKeyboardControlPreviousNext = 1 << 0,
     BSKeyboardControlDone = 1 << 1,
     BSKeyboardControlExtra = 1 << 2,
-} BSKeyboardControl;
+};
 
 /**
  *  Directions in which the fields can be selected.
  *  These are relative to the active field.
  */
-typedef enum
+typedef NS_ENUM(NSUInteger, BSKeyboardControlsDirection)
 {
     BSKeyboardControlsDirectionPrevious = 0,
     BSKeyboardControlsDirectionNext
-} BSKeyboardControlsDirection;
+};
 
 @protocol BSKeyboardControlsDelegate;
 
-@interface BSKeyboardControls : UIView
+@interface BSKeyboardControls : UIView <UIInputViewAudioFeedback>
 
 /**
  *  Delegate to send callbacks to.
@@ -69,17 +69,17 @@ typedef enum
 @property (nonatomic, strong) UIColor *barTintColor;
 
 /**
- *  Tint color of the segmented control.
+ *  Tint color of the segmented control. iOS 6 Only.
  */
-@property (nonatomic, strong) UIColor *segmentedControlTintControl;
+@property (nonatomic, strong) UIColor *segmentedControlTintColor;
 
 /**
- *  Title of the previous button. If this is not set, a default localized title will be used.
+ *  Title of the previous button. If this is not set, a default localized title will be used. iOS 6 Only.
  */
 @property (nonatomic, strong) NSString *previousTitle;
 
 /**
- *  Title of the next button. If this is not set, a default localized title will be used.
+ *  Title of the next button. If this is not set, a default localized title will be used. iOS 6 Only.
  */
 @property (nonatomic, strong) NSString *nextTitle;
 
